@@ -2,32 +2,47 @@
 const userList = ( state = [], action) => {
     switch (action.type){
         case "LOGOUT" : case "REFRESH" : {
-            let newUserList = [];
-            state.map(user=>{
-                if( action.token.indexOf(user.token) == -1 ){
-                    newUserList.push(user);
+            let list = {};
+            for(let platform in state){
+                if( !list.hasOwnProperty(platform) ){
+                    list[platform] = [];
                 }
-            })
-            return newUserList;
+                const userList = state[platform];
+                userList.map( user => {
+                    if( action.token.indexOf(user.token) == -1){
+                        list[platform].push(user);
+                    }
+                })
+            }
+            return list;
         }
         case "UPDATE_USERLIST" : {
-            const newUserList = action.userList;
-            for(let i=0, len=newUserList.length; i<len; i++){
-                const newUser = newUserList[i];
-                newUser['online'] = true;
-                newUser['isActived'] = false;
+            let userList = action.userList
+            for(let platform in userList){
+                let plt = userList[platform];
+                for(let index = 0; index < plt.length; index++){
+                    let user = plt[index];
+                    user['online'] = true;
+                    user['isActived'] = false;
+                }
             }
-            return newUserList
+            return userList;
         }
         case "SELECTED_USER" : {
-            let newUserList = [];
-            state.map( user => {
-                if(user.token == action.token){
-                    user.isActived = !user.isActived;
+            let list = {};
+            for(let platform in state){
+                if( !list.hasOwnProperty(platform) ){
+                    list[platform] = [];
                 }
-                newUserList.push(user);
-            })
-            return newUserList;
+                let userList = state[platform];
+                userList.map( user => {
+                    if(user.token == action.token){
+                        user.isActived = !user.isActived;
+                    }
+                    list[platform].push(user);
+                })
+            }
+            return list;
         }
         case "RESET_STATUS" : {
             let newUserList = [];

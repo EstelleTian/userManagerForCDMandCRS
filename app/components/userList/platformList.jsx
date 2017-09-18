@@ -2,23 +2,25 @@ import React from 'react'
 import { Col } from 'antd'
 import User from "../user"
 
-const PlatformList = ({list, forceLogout, forceRefresh, selectedUser}) => (
-    <div>
-        {
-            Object.keys(list).map( user =>
-                <Col key={user} xl={4} lg={6} md={8}>
-                    <User
-                        user = {list[user]}
-                        forceLogout = {forceLogout}
-                        forceRefresh = {forceRefresh}
-                        selectedUser = {selectedUser}
-                    ></User>
-                </Col>
+const PlatformList = ({list, forceLogout, forceRefresh, selectedUser, toggleSlider}) =>{
+    return (
+        <div>
+            {
+                list.map( user =>
+                    <Col key={user.token} xl={3} lg={5} md={6}>
+                        <User
+                            user = {user}
+                            forceLogout = {forceLogout}
+                            forceRefresh = {forceRefresh}
+                            selectedUser = {selectedUser}
+                            toggleSlider = {toggleSlider}
+                        ></User>
+                    </Col>
 
-            )
-        }
-    </div>
-
-)
+                )
+            }
+        </div>
+    )
+}
 
 export default PlatformList

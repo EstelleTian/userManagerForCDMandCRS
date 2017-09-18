@@ -1,8 +1,10 @@
 import React from 'react';
 import { Row, Col, Input, Button, Modal } from 'antd';
-import SystemList from './systemList';
+import PlatformList from "./platformList";
+import SliderBar from '../sliderBar';
 import { getUserListUrl, sendLogoutUrl, sendRefreshUrl } from '../../utils/requestUrls'
 import './userList.less'
+import $ from 'jquery'
 
 const Search = Input.Search;
 
@@ -30,35 +32,29 @@ class UserList extends React.Component{
         if(filterKey.trim() == ""){
             return list;
         }
-        for(let i=0; i<userList.length; i++){
-            const user = userList[i];
-            if(filterKey != "all"){
-                let isShow = false;
-                for(let key in user){
-                    let str = user[key]+"";
-                    str = str.toLowerCase();
-                    filterKey = filterKey.toLowerCase()+"";
-                    if(str.indexOf(filterKey) > -1){
-                        isShow = true;
-                        break;
+        for(let platform in userList){
+            if( !list.hasOwnProperty(platform) ){
+                list[platform] = [];
+            }
+            const plt = userList[platform];
+            for(let index = 0; index < plt.length; index++){
+                const user = plt[index];
+                if(filterKey != "all"){
+                    let isShow = false;
+                    for(let key in user){
+                        let str = user[key]+"";
+                        str = str.toLowerCase();
+                        filterKey = filterKey.toLowerCase()+"";
+                        if(str.indexOf(filterKey) > -1){
+                            isShow = true;
+                            break;
+                        }
                     }
-                }
-                if(!isShow){
-                    continue;
-                }
-            }
-            const userSystem = user.system || "";
-            if(userSystem != ""){
-                if( !list.hasOwnProperty(userSystem) ){
-                    list[userSystem] = {};
-                }
-            }
-            const userPlatform = user.systemAdditionProp || "";
-            if(userPlatform != ""){
-                if( list[userSystem].hasOwnProperty(userPlatform) ){
-                    list[userSystem][userPlatform].push(user);
+                    if(isShow){
+                        list[platform].push(user);
+                    }
                 }else{
-                    list[userSystem][userPlatform] = [user];
+                    list[platform].push(user);
                 }
             }
         }
@@ -67,69 +63,133 @@ class UserList extends React.Component{
 
     retrieveUserList(){
         const { updateUserList } = this.props;
-        fetch(getUserListUrl,{
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
-        }).then((res) => {
-            res.json().then(json => {
+        // fetch(getUserListUrl,{
+        //     method: 'get',
+        //     mode: 'cors',
+        //     headers: {
+        //         "Content-Type": "application/x-www-form-urlencoded"
+        //     }
+        // }).then((res) => {
+        //     res.json().then(json => {
+        //         if(json.hasOwnProperty("warn")){
+        //             updateUserList({});
+        //         }else{
+        //             const userList = json.onlineUserMap || {};
+        //             updateUserList(userList);
+        //         }
+        //
+        //     })
+        // })
+        $.ajax({
+            url: getUserListUrl,
+            type: 'GET',
+            dataType: 'json',
+            success: function(json){
                 if(json.hasOwnProperty("warn")){
-                    updateUserList([]);
+                    updateUserList({});
                 }else{
-                    const userList = json.onLineUserResultList || [];
+                    const userList = json.onlineUserMap || {};
                     updateUserList(userList);
                 }
-
-            })
+            },
+            error: function(err){
+                console.error(err);
+            }
         })
-        // const userList = [
-        //     {
-        //         status: 0,
-        //         token: "chengdudev|127.0.0.1|CRSZUUU|41e68719eeed4d69bc942a9b731dbd1f-chengdudev",
-        //         clientVersion: "V20170824",
-        //         browserVersion: "60.0.3112.78",
-        //         ipAddress: "127.0.0.1",
-        //         username: "chengdudev",
-        //         system: "CRS",
-        //         sysetemType: "CRS.SW.MASTER",
-        //         systemAdditionProp: "CRSZUUU"
-        //     },
-        //     {
-        //         status: 0,
-        //         token: "chengdudev|227.0.0.1|CRSZPPP|41e68719eeed4d69bc942a9b731dbd1f-chengdudev",
-        //         clientVersion: "V20170824",
-        //         browserVersion: "60.0.3112.78",
-        //         ipAddress: "227.0.0.1",
-        //         username: "chengdudev",
-        //         system: "CRS",
-        //         sysetemType: "CRS.SW.MASTER",
-        //         systemAdditionProp: "CRSZPPP"
-        //     },
-        //     {
-        //         status: 0,
-        //         token: "chengdudev|327.0.0.1|CDMZUUU|41e68719eeed4d69bc942a9b731dbd1f-chengdudev",
-        //         clientVersion: "V20170824",
-        //         browserVersion: "60.0.3112.78",
-        //         ipAddress: "327.0.0.1",
-        //         username: "chengdudev",
-        //         system: "CDM",
-        //         sysetemType: "CRS.SW.MASTER",
-        //         systemAdditionProp: "CDMZUUU"
-        //     },
-        //     {
-        //         status: 0,
-        //         token: "chengdudev|427.0.0.1|CDMZUCK|41e68719eeed4d69bc942a9b731dbd1f-chengdudev",
-        //         clientVersion: "V20170824",
-        //         browserVersion: "60.0.3112.78",
-        //         ipAddress: "427.0.0.1",
-        //         username: "chengdudev",
-        //         system: "CDM",
-        //         sysetemType: "CRS.SW.MASTER",
-        //         systemAdditionProp: "CDMZUCK"
-        //     }
-        // ];
+        // let userList = {
+        //     CRSZWWW: [
+        //         {
+        //             status: 0,
+        //             token: "1chongqingdev3|127.0.0.3|CRSZWWW|dcb6819f02b340b2a41bc61e78dbccc3-chongqingdev3",
+        //             loginTime: "2017-9-14 10:13:07",
+        //             ipAddress: "127.0.0.3",
+        //             username: "chongqingdev3"
+        //         },
+        //         {
+        //             status: 0,
+        //             token: "111",
+        //             loginTime: "2017-9-14 10:12:07",
+        //             ipAddress: "127.0.0.2",
+        //             username: "chongqingdev2"
+        //         },
+        //         {
+        //             status: 0,
+        //             token: "3chongqingdev1|127.0.0.1|CRSZWWW|dcb6819f05b340b2a41bc61e78dbccc1-chongqingdev1",
+        //             loginTime: "2017-9-14 10:11:07",
+        //             ipAddress: "127.0.0.1",
+        //             username: "chongqingdev1"
+        //         }
+        //     ],
+        //     CRSZPPP: [
+        //         {
+        //             status: 0,
+        //             token: "32chongqingdev3|127.0.0.3|CRSZWWW|dcb6819f02b340b2a41bc61e78dbccc3-chongqingdev3",
+        //             loginTime: "2017-9-14 10:13:07",
+        //             ipAddress: "127.0.0.3",
+        //             username: "chongqingdev3"
+        //         },
+        //         {
+        //             status: 0,
+        //             token: "1123",
+        //             loginTime: "2017-9-14 10:12:07",
+        //             ipAddress: "127.0.0.2",
+        //             username: "chongqingdev2"
+        //         },
+        //         {
+        //             status: 0,
+        //             token: "33chongqingdev1|127.0.0.1|CRSZWWW|dcb6819f05b340b2a41bc61e78dbccc1-chongqingdev1",
+        //             loginTime: "2017-9-14 10:11:07",
+        //             ipAddress: "127.0.0.1",
+        //             username: "chongqingdev1"
+        //         }
+        //     ],
+        //     CDMZUUU: [
+        //         {
+        //             status: 0,
+        //             token: "chongqingdev3|127.0.0.3|CRSZWWW|dcb6819f02b340b2a41bc61e78dbccc3-chongqingdev3",
+        //             loginTime: "2017-9-14 10:13:07",
+        //             ipAddress: "127.0.0.3",
+        //             username: "chongqingdev3"
+        //         },
+        //         {
+        //             status: 0,
+        //             token: "111",
+        //             loginTime: "2017-9-14 10:12:07",
+        //             ipAddress: "127.0.0.2",
+        //             username: "chongqingdev2"
+        //         },
+        //         {
+        //             status: 0,
+        //             token: "chongqingdev1|127.0.0.1|CRSZWWW|dcb6819f05b340b2a41bc61e78dbccc1-chongqingdev1",
+        //             loginTime: "2017-9-14 10:11:07",
+        //             ipAddress: "127.0.0.1",
+        //             username: "chongqingdev1"
+        //         }
+        //     ],
+        //     CDMZUCK: [
+        //             {
+        //                 status: 0,
+        //                 token: "chongqingdev3|127.0.0.3|CRSZWWW|dcb6819f02b340b2a41bc61e78dbccc3-chongqingdev3",
+        //                 loginTime: "2017-9-14 10:13:07",
+        //                 ipAddress: "127.0.0.3",
+        //                 username: "chongqingdev3"
+        //             },
+        //             {
+        //                 status: 0,
+        //                 token: "111",
+        //                 loginTime: "2017-9-14 10:12:07",
+        //                 ipAddress: "127.0.0.2",
+        //                 username: "chongqingdev2"
+        //             },
+        //             {
+        //                 status: 0,
+        //                 token: "chongqingdev1|127.0.0.1|CRSZWWW|dcb6819f05b340b2a41bc61e78dbccc1-chongqingdev1",
+        //                 loginTime: "2017-9-14 10:11:07",
+        //                 ipAddress: "127.0.0.1",
+        //                 username: "chongqingdev1"
+        //             }
+        //         ]
+        // }
         // updateUserList(userList);
     }
 
@@ -142,27 +202,59 @@ class UserList extends React.Component{
         const { userList, forceLogout } = this.props;
         let tokens = [];
         let names = [];
-        userList.map( user => {
-            if(user.isActived){
-                tokens.push(user.token);
-                names.push(user.username);
-            }
-        })
+        for(let platform in userList){
+            const userArr = userList[platform]
+            userArr.map( user => {
+                if(user.isActived){
+                    tokens.push(user.token);
+                    names.push(user.username);
+                }
+            })
+        }
         const tokensStr = tokens.join(',');
         const namesStr = names.join(',');
         if(tokensStr.length > 0){
             Modal.confirm({
                 title: '确定批量退出用户'+namesStr+'?',
                 onOk(){
-                    fetch(sendLogoutUrl,{
-                        mode: 'cors',
-                        method: 'post',
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded"
-                        },
-                        body: "tokens=" + tokensStr
-                    }).then(function(res) {
-                        res.json().then(function (json) {
+                    // fetch(sendLogoutUrl,{
+                    //     mode: 'cors',
+                    //     method: 'post',
+                    //     headers: {
+                    //         "Content-Type": "application/x-www-form-urlencoded"
+                    //     },
+                    //     body: "tokens=" + tokensStr
+                    // }).then(function(res) {
+                    //     res.json().then(function (json) {
+                    //         if(json.hasOwnProperty("error")){
+                    //             let msg = json.error.message || "";
+                    //             const tokenArr = msg.split(",");
+                    //             let invalidNames = [];
+                    //             for(let i=0,len=tokenArr.length; i<len; i++){
+                    //                 const token = tokenArr[i];
+                    //                 const index = tokens.indexOf(token);
+                    //                 if(index > -1){
+                    //                     invalidNames.push(names[index]);
+                    //                 }
+                    //             }
+                    //             const invalidNamesStr = invalidNames.join(",");
+                    //             Modal.warn({
+                    //                 title: "批量退出用户"+invalidNamesStr+"失败，因用户不存在。其余用户刷新成功！"
+                    //             })
+                    //         }else{
+                    //             Modal.success({
+                    //                 title: "批量退出用户"+namesStr+"成功"
+                    //             })
+                    //             forceLogout(tokens);
+                    //         }
+                    //     })
+                    // })
+                    $.ajax({
+                        url: sendLogoutUrl,
+                        data: "tokens=" + tokensStr,
+                        type: 'post',
+                        dataType: 'json',
+                        success: function(json){
                             if(json.hasOwnProperty("error")){
                                 let msg = json.error.message || "";
                                 const tokenArr = msg.split(",");
@@ -184,7 +276,10 @@ class UserList extends React.Component{
                                 })
                                 forceLogout(tokens);
                             }
-                        })
+                        },
+                        error: function(err){
+                            console.error(err);
+                        }
                     })
 
                 }
@@ -203,27 +298,59 @@ class UserList extends React.Component{
         const { userList, forceRefresh } = this.props;
         let tokens = [];
         let names = [];
-        userList.map( user => {
-            if(user.isActived){
-                tokens.push(user.token);
-                names.push(user.username);
-            }
-        })
+        for(let platform in userList){
+            const userArr = userList[platform]
+            userArr.map( user => {
+                if(user.isActived){
+                    tokens.push(user.token);
+                    names.push(user.username);
+                }
+            })
+        }
         const tokensStr = tokens.join(',');
         const namesStr = names.join(',');
         if(tokensStr.length > 0){
             Modal.confirm({
                 title: '确定批量刷新用户'+namesStr+'?',
                 onOk(){
-                    fetch(sendRefreshUrl,{
-                        mode: 'cors',
-                        method: 'post',
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded"
-                        },
-                        body: "tokens=" + tokensStr
-                    }).then(function(res) {
-                        res.json().then(function (json) {
+                    // fetch(sendRefreshUrl,{
+                    //     mode: 'cors',
+                    //     method: 'post',
+                    //     headers: {
+                    //         "Content-Type": "application/x-www-form-urlencoded"
+                    //     },
+                    //     body: "tokens=" + tokensStr
+                    // }).then(function(res) {
+                    //     res.json().then(function (json) {
+                    //         if(json.hasOwnProperty("error")){
+                    //             let msg = json.error.message || "";
+                    //             const tokenArr = msg.split(",");
+                    //             let invalidNames = [];
+                    //             for(let i=0,len=tokenArr.length; i<len; i++){
+                    //                 const token = tokenArr[i];
+                    //                 const index = tokens.indexOf(token);
+                    //                 if(index > -1){
+                    //                     invalidNames.push(names[index]);
+                    //                 }
+                    //             }
+                    //             const invalidNamesStr = invalidNames.join(",");
+                    //             Modal.warn({
+                    //                 title: "批量刷新用户"+invalidNamesStr+"失败，因用户不存在。其余用户刷新成功！"
+                    //             })
+                    //         }else{
+                    //             Modal.success({
+                    //                 title: "批量刷新用户"+namesStr+"成功"
+                    //             })
+                    //             forceRefresh(tokens);
+                    //         }
+                    //     })
+                    // })
+                    $.ajax({
+                        url: sendRefreshUrl,
+                        data: "tokens=" + tokensStr,
+                        type: 'post',
+                        dataType: 'json',
+                        success: function(json){
                             if(json.hasOwnProperty("error")){
                                 let msg = json.error.message || "";
                                 const tokenArr = msg.split(",");
@@ -245,9 +372,11 @@ class UserList extends React.Component{
                                 })
                                 forceRefresh(tokens);
                             }
-                        })
+                        },
+                        error: function(err){
+                            console.error(err);
+                        }
                     })
-
                 }
             });
         }else{
@@ -260,9 +389,10 @@ class UserList extends React.Component{
         e.preventDefault();
     }
     render(){
-        const { forceLogout, forceRefresh, selectedUser, filterList, userList } = this.props;
+        const { forceLogout, forceRefresh, selectedUser, toggleSlider, closeSlider, filterList, userList, sliderBar } = this.props;
         const newUserList = this.converUserList(userList);
         const list = Object.keys(newUserList);
+        const visible = sliderBar.visible;
         return(
             <div className="us_cantainer">
                 <Row className="filter_container">
@@ -271,7 +401,7 @@ class UserList extends React.Component{
                             placeholder="自定义查询"
                             size="large"
                             onSearch={(inputVal) => {
-                                // console.log("点击了搜索的提交按钮,输入的值是:" + inputVal);
+
                                 filterList(inputVal);
                             }}
                             onKeyUp={() => {
@@ -293,22 +423,31 @@ class UserList extends React.Component{
                 </Row>
                 <Row className="no_margin">
                     {list.length ?
-                        list.map(system =>
-                            <Col lg={24} md={24} key={system} className="us_system">
-                                <div className="us_system_name">{system}</div>
-                                <SystemList
-                                    forceLogout = {forceLogout}
-                                    forceRefresh = {forceRefresh}
-                                    selectedUser = {selectedUser}
-                                    list={newUserList[system]}
-                                />
-                            </Col>
+                        list.map(platform =>
+                            newUserList[platform].length ?
+                            <Col key={platform} span={24}  className="us_platform">
+                                <Col xl={1} lg={2} md={2} className="us_platform_name">
+                                    <div>{platform}</div>
+                                </Col>
+                                <Col xl={22} lg={22} md={22}>
+                                    <PlatformList
+                                        list = {newUserList[platform]}
+                                        forceLogout = {forceLogout}
+                                        forceRefresh = {forceRefresh}
+                                        selectedUser = {selectedUser}
+                                        toggleSlider = {toggleSlider}
+                                    ></PlatformList>
+                                </Col>
+                            </Col> : ""
                         ) :
                         <div className="us_no_datas">暂无用户数据</div>
                     }
+                    {
+                        visible ? <SliderBar userObj = { sliderBar.userObj } closeSlider={closeSlider} />: ""
+                    }
                 </Row>
 
-                {/*<SliderInfo {...detailInfo} />*/}
+
             </div>
         )
     }

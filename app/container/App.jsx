@@ -12,7 +12,7 @@ const Store = createStore(Reducer)
 const App = (props) => {
     return(
         <Provider store={Store}>
-            <Layout style={{ minHeight: '100vh'}}>
+            <Layout className="sider_layout" style={{ minHeight: '100vh'}}>
                 <Sider collapsed={false} >
                     <div className="logo header_title">
                         用户管理
@@ -33,6 +33,7 @@ const App = (props) => {
                     <Footer style={{ textAlign: 'center' }}>
                         Design ©2017 Created by ADCC
                     </Footer>
+
                 </Layout>
             </Layout>
         </Provider>

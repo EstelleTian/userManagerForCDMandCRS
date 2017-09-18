@@ -25,3 +25,11 @@ export const filterList = text => ({
     text
 })
 
+export const toggleSlider = userObj => ({
+    type: "TOGGLE_SLIDER",
+    userObj
+})
+export const closeSlider = () => ({
+    type: "CLOSE_SLIDER"
+})
+
