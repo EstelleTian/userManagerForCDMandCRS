@@ -1,4 +1,5 @@
 import React from 'react';
+import { parseFullTime } from '../../utils/requestUrls'
 import './sliderBar.less';
 import { Icon} from 'antd'
 
@@ -42,13 +43,13 @@ const SliderBar = ( { userObj, closeSlider } ) => (
             <div className="us_panel">
                 <label>登录时间:</label>
                 <div className="us_panel_info">
-                    <span>{userObj.loginTime || ""}</span>
+                    <span>{parseFullTime(userObj.loginTime)}</span>
                 </div>
             </div>
             <div className="us_panel">
                 <label>上传时间:</label>
                 <div className="us_panel_info">
-                    <span>{userObj.uploadTime || ""}</span>
+                    <span>{parseFullTime(userObj.uploadTime)}</span>
                 </div>
             </div>
             <div className="us_panel">

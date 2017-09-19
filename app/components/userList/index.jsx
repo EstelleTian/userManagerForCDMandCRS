@@ -101,21 +101,21 @@ class UserList extends React.Component{
         //         {
         //             status: 0,
         //             token: "1chongqingdev3|127.0.0.3|CRSZWWW|dcb6819f02b340b2a41bc61e78dbccc3-chongqingdev3",
-        //             loginTime: "2017-9-14 10:13:07",
+        //             loginTime: "20170914101307",
         //             ipAddress: "127.0.0.3",
         //             username: "chongqingdev3"
         //         },
         //         {
         //             status: 0,
         //             token: "111",
-        //             loginTime: "2017-9-14 10:12:07",
-        //             ipAddress: "127.0.0.2",
+        //             loginTime: "20170914101307",
+        //             ipAddress: "20170914101307",
         //             username: "chongqingdev2"
         //         },
         //         {
         //             status: 0,
         //             token: "3chongqingdev1|127.0.0.1|CRSZWWW|dcb6819f05b340b2a41bc61e78dbccc1-chongqingdev1",
-        //             loginTime: "2017-9-14 10:11:07",
+        //             loginTime: "20170914101307",
         //             ipAddress: "127.0.0.1",
         //             username: "chongqingdev1"
         //         }
@@ -124,21 +124,21 @@ class UserList extends React.Component{
         //         {
         //             status: 0,
         //             token: "32chongqingdev3|127.0.0.3|CRSZWWW|dcb6819f02b340b2a41bc61e78dbccc3-chongqingdev3",
-        //             loginTime: "2017-9-14 10:13:07",
+        //             loginTime: "20170914101307",
         //             ipAddress: "127.0.0.3",
         //             username: "chongqingdev3"
         //         },
         //         {
         //             status: 0,
         //             token: "1123",
-        //             loginTime: "2017-9-14 10:12:07",
+        //             loginTime: "20170914101307",
         //             ipAddress: "127.0.0.2",
         //             username: "chongqingdev2"
         //         },
         //         {
         //             status: 0,
         //             token: "33chongqingdev1|127.0.0.1|CRSZWWW|dcb6819f05b340b2a41bc61e78dbccc1-chongqingdev1",
-        //             loginTime: "2017-9-14 10:11:07",
+        //             loginTime: "20170914101307",
         //             ipAddress: "127.0.0.1",
         //             username: "chongqingdev1"
         //         }
@@ -147,21 +147,21 @@ class UserList extends React.Component{
         //         {
         //             status: 0,
         //             token: "chongqingdev3|127.0.0.3|CRSZWWW|dcb6819f02b340b2a41bc61e78dbccc3-chongqingdev3",
-        //             loginTime: "2017-9-14 10:13:07",
+        //             loginTime: "20170914101307",
         //             ipAddress: "127.0.0.3",
         //             username: "chongqingdev3"
         //         },
         //         {
         //             status: 0,
         //             token: "111",
-        //             loginTime: "2017-9-14 10:12:07",
+        //             loginTime: "20170914101307",
         //             ipAddress: "127.0.0.2",
         //             username: "chongqingdev2"
         //         },
         //         {
         //             status: 0,
         //             token: "chongqingdev1|127.0.0.1|CRSZWWW|dcb6819f05b340b2a41bc61e78dbccc1-chongqingdev1",
-        //             loginTime: "2017-9-14 10:11:07",
+        //             loginTime: "20170914101307",
         //             ipAddress: "127.0.0.1",
         //             username: "chongqingdev1"
         //         }
@@ -170,21 +170,21 @@ class UserList extends React.Component{
         //             {
         //                 status: 0,
         //                 token: "chongqingdev3|127.0.0.3|CRSZWWW|dcb6819f02b340b2a41bc61e78dbccc3-chongqingdev3",
-        //                 loginTime: "2017-9-14 10:13:07",
+        //                 loginTime: "20170914101307",
         //                 ipAddress: "127.0.0.3",
         //                 username: "chongqingdev3"
         //             },
         //             {
         //                 status: 0,
         //                 token: "111",
-        //                 loginTime: "2017-9-14 10:12:07",
+        //                 loginTime: "20170914101307",
         //                 ipAddress: "127.0.0.2",
         //                 username: "chongqingdev2"
         //             },
         //             {
         //                 status: 0,
         //                 token: "chongqingdev1|127.0.0.1|CRSZWWW|dcb6819f05b340b2a41bc61e78dbccc1-chongqingdev1",
-        //                 loginTime: "2017-9-14 10:11:07",
+        //                 loginTime: "20170914101307",
         //                 ipAddress: "127.0.0.1",
         //                 username: "chongqingdev1"
         //             }

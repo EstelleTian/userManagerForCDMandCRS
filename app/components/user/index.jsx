@@ -1,6 +1,6 @@
 import React from 'react'
 import { Icon, Row, Col, Modal, Checkbox, Button} from 'antd'
-import { sendLogoutUrl, sendRefreshUrl, getUserByTokenUrl } from '../../utils/requestUrls'
+import { sendLogoutUrl, sendRefreshUrl, getUserByTokenUrl, parseHalfFullTime } from '../../utils/requestUrls'
 import $ from 'jquery'
 import "./user.less"
 
@@ -164,7 +164,7 @@ const User = ({ user, forceLogout, forceRefresh, selectedUser, toggleSlider}) =>
         //     generateTime: "201709151348",
         //     status: 200,
         //     token: "chongqingdev2|127.0.0.2|CRSZWWW|dcb6819f01b340b2a41bc61e78dbccc2-chongqingdev2",
-        //     loginTime: "2017-9-14 10:12:07",
+        //     loginTime: "20170914101307",
         //     clientVersion: "V20170907",
         //     browserVersion: "60.0.3112.78",
         //     ipAddress: "127.0.0.2",
@@ -172,7 +172,7 @@ const User = ({ user, forceLogout, forceRefresh, selectedUser, toggleSlider}) =>
         //     system: "CRS",
         //     systemType: "CRS.SW.MASTER",
         //     systemAdditionProp: "CRSZWWW",
-        //     uploadTime: "2017-9-14 13:12:15"
+        //     uploadTime: "20170914101307"
         // }
         // toggleSlider(json);
 
@@ -193,7 +193,7 @@ const User = ({ user, forceLogout, forceRefresh, selectedUser, toggleSlider}) =>
                     <div>IP：{user.ipAddress}</div>
                     <div>
                         <Icon type="clock-circle-o" />：
-                        <span className="us_user_loginTime">{user.loginTime}</span>
+                        <span className="us_user_loginTime">{parseHalfFullTime(user.loginTime)}</span>
                     </div>
                 </Col>
                 <Col span={1}>
