@@ -15,6 +15,7 @@ class UserList extends React.Component{
         this.handleRefresh = this.handleRefresh.bind(this);
         this.onClickMultiLogout = this.onClickMultiLogout.bind(this);
         this.onClickMultiRefresh = this.onClickMultiRefresh.bind(this);
+        this.onClickSelectAllUser = this.onClickSelectAllUser.bind(this);
         this.retrieveUserList = this.retrieveUserList.bind(this);
     }
 
@@ -388,6 +389,16 @@ class UserList extends React.Component{
         e.stopPropagation();
         e.preventDefault();
     }
+    onClickSelectAllUser(e){
+        const { userList ,selectedUser } = this.props;
+        let selectList = userList;
+        for(let platform in selectList){
+            const userArr = userList[platform]
+            userArr.map( user => {
+                selectedUser(user.token);
+            })
+        }
+    }
     render(){
         const { forceLogout, forceRefresh, selectedUser, toggleSlider, closeSlider, filterList, userList, sliderBar } = this.props;
         const newUserList = this.converUserList(userList);
@@ -419,6 +430,9 @@ class UserList extends React.Component{
                     </Col>
                     <Col lg={1} md={2} xs={3} className="opt_btn">
                         <Button type="primary" onClick={this.onClickMultiLogout}>批量退出</Button>
+                    </Col>
+                    <Col lg={1} md={2} xs={3} className="opt_btn">
+                        <Button type="primary" onClick = {this.onClickSelectAllUser} >全选用户</Button>
                     </Col>
                 </Row>
                 <Row className="no_margin">
